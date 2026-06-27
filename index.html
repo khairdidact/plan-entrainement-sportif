@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Programme hybride 12 semaines : calisthenics, force, endurance, skills, garde-fous médicaux et générateur de séances interactif." />
-  <title>Programme Hybride · 12 semaines · v6 interactive</title>
+  <title>Programme Hybride · 12 semaines · v6.1 agenda</title>
   <style>
     :root{
       --bg:#080b12;--bg2:#0d1320;--panel:#121a2a;--panel2:#172236;--line:#2b3b52;--text:#eef5ff;--muted:#a9b8cc;--soft:#d7e5f7;
@@ -48,23 +48,13 @@
         <button class="btn warn" type="button" id="printBtn">🖨️ Imprimer / PDF</button>
       </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:18px">
-        <span class="chip">RIR / RPE</span><span class="chip">Deload automatique</span><span class="chip">Cadrans santé</span><span class="chip">Accordéons</span><span class="chip">Export JSON</span><span class="chip">Responsive</span>
+        <span class="chip">RIR / RPE</span><span class="chip">Deload automatique</span><span class="chip">Cadrans santé</span><span class="chip">Accordéons</span><span class="chip">Google Agenda</span><span class="chip">Responsive</span>
       </div>
     </header>
 
     <nav class="nav no-print" aria-label="Navigation principale">
-      <a href="#audit">Audit</a><a href="#dashboard">Diagnostic</a><a href="#generator">Générateur</a><a href="#plan">Plan 12 semaines</a><a href="#skills">Skills</a><a href="#library">Bibliothèque</a><a href="#suivi">Suivi</a><a href="#securite">Sécurité</a>
+      <a href="#dashboard">Diagnostic</a><a href="#generator">Générateur</a><a href="#plan">Plan 12 semaines</a><a href="#skills">Skills</a><a href="#library">Bibliothèque</a><a href="#suivi">Suivi</a><a href="#securite">Sécurité</a>
     </nav>
-
-    <section id="audit">
-      <div class="section-title"><div><h2>Audit synthétique du programme initial</h2><p>Le fichier de départ contenait une base pertinente — sliders, 5 scénarios et estimation calorique — mais restait trop linéaire pour piloter une progression réelle.</p></div><span class="tag blue">audit intégré</span></div>
-      <div class="grid cols-4 audit-list">
-        <div class="audit-item"><div class="dot">✅</div><div><b>Points conservés</b><p class="muted mini">Paramètres corporels, motivation, météo, temps disponible, génération de scénarios et logique MET.</p></div></div>
-        <div class="audit-item"><div class="dot">⚕️</div><div><b>Ajout santé</b><p class="muted mini">Interprétation prudente tension / pouls / fatigue, alertes, choix du deload, RIR et règles d’arrêt.</p></div></div>
-        <div class="audit-item"><div class="dot">🧭</div><div><b>Ajout technique</b><p class="muted mini">Plan 12 semaines, blocs force, endurance, skills, tests, progression et alternatives par niveau.</p></div></div>
-        <div class="audit-item"><div class="dot">📱</div><div><b>Ajout ergonomie</b><p class="muted mini">Navigation sticky, cadrans, tabs, accordéons, checklist, bibliothèque filtrable, sauvegarde locale et export.</p></div></div>
-      </div>
-    </section>
 
     <section id="dashboard">
       <div class="section-title"><div><h2>Diagnostic adaptatif</h2><p>Ajustez les curseurs. Les cadrans, l’alerte santé, le volume cible et la séance recommandée se recalculent instantanément.</p></div><span id="statusTag" class="tag green">prêt</span></div>
@@ -149,7 +139,7 @@
       <div class="section-title"><div><h2>Suivi express</h2><p>Cochez les points terminés. Le suivi reste dans le navigateur après sauvegarde locale.</p></div><button class="btn no-print" id="resetChecks">↺ Réinitialiser les coches</button></div>
       <div class="grid cols-2">
         <div class="card"><h3>✅ Checklist séance</h3><div class="checklist" id="checklist"></div></div>
-        <div class="card"><h3>📤 Export</h3><p class="muted">Exportez vos réglages et votre séance du jour en JSON, ou copiez le résumé pour votre carnet d’entraînement.</p><div class="hero-actions no-print"><button class="btn primary" id="copySummary">Copier résumé</button><button class="btn" id="exportJson">Télécharger JSON</button></div><textarea id="summaryBox" rows="8" readonly style="margin-top:12px;width:100%;border:1px solid var(--line);border-radius:16px;background:rgba(0,0,0,.12);color:var(--text);padding:12px"></textarea></div>
+        <div class="card"><h3>📅 Agenda & carnet</h3><p class="muted">Copiez le résumé dans votre carnet d’entraînement ou ajoutez la séance générée à Google Agenda avec la durée et les consignes du jour.</p><div class="grid cols-2" style="margin-top:12px"><div class="control"><label>Date de séance</label><input id="calendarDate" type="date" /></div><div class="control"><label>Heure de départ</label><input id="calendarTime" type="time" value="18:30" /></div></div><div class="hero-actions no-print"><button class="btn primary" id="copySummary">Copier résumé</button><button class="btn good" id="addGoogleCalendar">Ajouter à mon agenda Google</button></div><textarea id="summaryBox" rows="8" readonly style="margin-top:12px;width:100%;border:1px solid var(--line);border-radius:16px;background:rgba(0,0,0,.12);color:var(--text);padding:12px"></textarea><p class="mini muted" style="margin:.65rem 0 0">Le bouton ouvre Google Agenda dans un nouvel onglet avec un événement prérempli. Vous pouvez encore modifier l’horaire, les rappels et la récurrence avant d’enregistrer.</p></div>
       </div>
     </section>
 
@@ -223,7 +213,19 @@
     }
     function renderLibrary(){const root=$('#exerciseLibrary');root.innerHTML=exercises.filter(e=>state.filter==='all'||e[1].includes(state.filter)).map(e=>`<div class="lib-card"><b>${e[0]}</b><div class="muscle">${e[2]}</div><p class="mini muted"><span class="kbd">${e[1]}</span> · ${e[3]}</p></div>`).join('')}
     function renderChecklist(){const saved=JSON.parse(localStorage.getItem('hybrid_checks')||'[]');$('#checklist').innerHTML=checklistItems.map((x,i)=>`<label class="check ${saved.includes(i)?'done':''}"><input type="checkbox" data-check="${i}" ${saved.includes(i)?'checked':''}>${x}</label>`).join('')}
-    function updateSummary(){const c=compute();$('#summaryBox').value=`Programme hybride v6\nPriorité : ${state.goal}\nTemps : ${c.time} min\nReadiness : ${c.readiness}/100\nCharge cible : ${c.charge}/100\nRIR conseillé : ${c.rir}\nPrudence santé : ${c.health}/100\nCalories estimées : ${c.kcal} kcal\nNote : adapter ou arrêter en cas de symptôme inhabituel.`}
+    function updateSummary(){const c=compute();$('#summaryBox').value=`Programme hybride v6.1
+Priorité : ${state.goal}
+Temps : ${c.time} min
+Readiness : ${c.readiness}/100
+Charge cible : ${c.charge}/100
+RIR conseillé : ${c.rir}
+Prudence santé : ${c.health}/100
+Calories estimées : ${c.kcal} kcal
+Note : adapter ou arrêter en cas de symptôme inhabituel.`}
+    function pad(n){return String(n).padStart(2,'0')}
+    function gcalDate(d){return d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate())+'T'+pad(d.getHours())+pad(d.getMinutes())+'00'}
+    function setDefaultCalendarDate(){const input=$('#calendarDate');if(!input)return;const d=new Date();input.value=d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())}
+    function openGoogleCalendar(){updateSummary();const c=compute();const date=$('#calendarDate')?.value;const time=$('#calendarTime')?.value||'18:30';if(!date){toast('Choisissez une date de séance.');return}const start=new Date(date+'T'+time+':00');const end=new Date(start.getTime()+c.time*60000);const goalMap={hybrid:'hybride',force:'force',endurance:'set & reps',skills:'skills',deload:'deload'};const env=els.environment.options[els.environment.selectedIndex].textContent;const params=new URLSearchParams({action:'TEMPLATE',text:'Séance calisthenics '+(goalMap[state.goal]||state.goal),dates:gcalDate(start)+'/'+gcalDate(end),details:$('#summaryBox').value+'\n\nÉchauffement progressif, RIR conseillé respecté, arrêt en cas de douleur ou symptôme inhabituel.',location:env});window.open('https://calendar.google.com/calendar/render?'+params.toString(),'_blank','noopener')}
     function save(){const data={};controls.forEach(id=>data[id]=els[id].value);data.goal=state.goal;data.filter=state.filter;localStorage.setItem('hybrid_v6',JSON.stringify(data));toast('Réglages sauvegardés dans ce navigateur.')} function load(){const data=JSON.parse(localStorage.getItem('hybrid_v6')||'null');if(!data)return;controls.forEach(id=>{if(data[id]!==undefined)els[id].value=data[id]});state.goal=data.goal||'hybrid';state.filter=data.filter||'all'}
     function initEvents(){controls.forEach(id=>els[id].addEventListener('input',()=>{updateLabels();compute();updateSummary()}));['generateBtn','quickGenerate'].forEach(id=>$('#'+id).addEventListener('click',generateSession));$('#saveBtn').addEventListener('click',save);$('#printBtn').addEventListener('click',()=>window.print());
       $$('[data-theme-btn]').forEach(b=>b.addEventListener('click',()=>{$$('[data-theme-btn]').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.body.dataset.theme=b.dataset.themeBtn}));
@@ -233,10 +235,10 @@
       $('#checklist').addEventListener('change',e=>{if(!e.target.matches('[data-check]'))return;const checked=$$('#checklist input:checked').map(x=>Number(x.dataset.check));localStorage.setItem('hybrid_checks',JSON.stringify(checked));renderChecklist()});
       $('#resetChecks').addEventListener('click',()=>{localStorage.removeItem('hybrid_checks');renderChecklist();toast('Checklist réinitialisée.')});
       $('#copySummary').addEventListener('click',async()=>{updateSummary();try{await navigator.clipboard.writeText($('#summaryBox').value);toast('Résumé copié.')}catch(e){toast('Copie impossible : sélectionnez le texte.')}});
-      $('#exportJson').addEventListener('click',()=>{const c=compute();const blob=new Blob([JSON.stringify({date:new Date().toISOString(),settings:Object.fromEntries(controls.map(id=>[id,els[id].value])),goal:state.goal,computed:c},null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='programme-hybride-v6-export.json';a.click();URL.revokeObjectURL(a.href)});
+      $('#addGoogleCalendar').addEventListener('click',openGoogleCalendar);
       const obs=new IntersectionObserver(entries=>{entries.forEach(en=>{if(en.isIntersecting){$$('.nav a').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+en.target.id))}})},{rootMargin:'-30% 0px -65% 0px'});$$('section[id]').forEach(s=>obs.observe(s));
     }
-    load(); updateLabels(); renderLibrary(); renderChecklist(); initEvents(); compute(); generateSession(); updateSummary();
+    load(); updateLabels(); renderLibrary(); renderChecklist(); setDefaultCalendarDate(); initEvents(); compute(); generateSession(); updateSummary();
   })();
   </script>
 </body>
