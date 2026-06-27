@@ -1,439 +1,243 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <title>Programme Hybride · 12 semaines · 5 scénarios</title>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            background: #0d1117;
-            color: #c9d1d9;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            padding: 2rem 1.5rem;
-            line-height: 1.5;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: #161b22;
-            border-radius: 16px;
-            padding: 2rem;
-            border: 1px solid #30363d;
-        }
-        h1 {
-            font-size: 2.2rem;
-            border-bottom: 1px solid #30363d;
-            padding-bottom: 0.5rem;
-            margin-bottom: 1.8rem;
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 10px;
-        }
-        h1 small { font-size: 0.9rem; font-weight: 400; color: #8b949e; margin-left: auto; }
-        .badge { background: #238636; color: #fff; font-size: 0.7rem; padding: 0.2rem 0.8rem; border-radius: 20px; }
-        .grid-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.8rem; margin: 1.8rem 0; }
-        @media (max-width: 750px) { .grid-2col { grid-template-columns: 1fr; } }
-        .card {
-            background: #0d1117;
-            border-radius: 12px;
-            padding: 1.5rem;
-            border: 1px solid #30363d;
-        }
-        .card h3 { font-size: 1.1rem; margin-bottom: 1.2rem; color: #f0f6fc; display: flex; align-items: center; gap: 8px; }
-        .param-group { display: flex; flex-direction: column; gap: 1.3rem; }
-        .param-item { display: flex; flex-direction: column; gap: 0.3rem; }
-        .param-item label {
-            font-weight: 500;
-            font-size: 0.9rem;
-            color: #b1bac4;
-            display: flex;
-            justify-content: space-between;
-        }
-        .param-item input[type="range"] {
-            width: 100%;
-            height: 6px;
-            background: #30363d;
-            border-radius: 10px;
-            -webkit-appearance: none;
-            appearance: none;
-            outline: none;
-        }
-        .param-item input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            background: #58a6ff;
-            cursor: pointer;
-            border: 2px solid #0d1117;
-        }
-        .param-item input[type="range"]::-moz-range-thumb {
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            background: #58a6ff;
-            cursor: pointer;
-            border: 2px solid #0d1117;
-        }
-        .value-indicator {
-            background: #21262d;
-            padding: 0.15rem 0.7rem;
-            border-radius: 30px;
-            font-size: 0.8rem;
-            color: #e6edf3;
-        }
-        .select-style {
-            background: #0d1117;
-            color: #c9d1d9;
-            border: 1px solid #30363d;
-            border-radius: 8px;
-            padding: 0.5rem 0.8rem;
-            font-size: 0.9rem;
-            width: 100%;
-            cursor: pointer;
-        }
-        .btn-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.7rem;
-            margin: 1.8rem 0 1.2rem;
-        }
-        .btn {
-            background: #21262d;
-            border: 1px solid #30363d;
-            color: #c9d1d9;
-            padding: 0.5rem 1.2rem;
-            border-radius: 30px;
-            font-weight: 500;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: 0.15s;
-        }
-        .btn:hover { background: #30363d; border-color: #58a6ff; }
-        .btn.active { background: #1f6feb; border-color: #1f6feb; color: #fff; }
-        .scenario-box {
-            background: #0d1117;
-            border-radius: 12px;
-            padding: 1.8rem;
-            margin: 2rem 0 1.5rem;
-            border: 1px solid #30363d;
-        }
-        .scenario-list { display: flex; flex-direction: column; gap: 1.2rem; margin-top: 1.2rem; }
-        .scenario-item {
-            background: #161b22;
-            padding: 1.2rem 1.5rem;
-            border-radius: 12px;
-            border: 1px solid #30363d;
-        }
-        .scenario-item strong { color: #f0f6fc; font-size: 1.1rem; display: block; margin-bottom: 0.25rem; }
-        .meta { color: #8b949e; font-size: 0.85rem; display: flex; flex-wrap: wrap; gap: 0.8rem; margin: 0.3rem 0 0.5rem; }
-        .tag { background: #21262d; padding: 0.1rem 0.7rem; border-radius: 30px; font-size: 0.7rem; color: #b1bac4; }
-        .calories-badge { background: #1f6feb33; border: 1px solid #1f6feb44; padding: 0.1rem 0.9rem; border-radius: 30px; font-size: 0.8rem; color: #58a6ff; font-weight: 500; }
-        .footer-note { border-top: 1px solid #30363d; margin-top: 2rem; padding-top: 1.5rem; font-size: 0.9rem; color: #8b949e; display: flex; justify-content: space-between; flex-wrap: wrap; }
-        .text-muted { color: #8b949e; }
-        .pill { background: #21262d; padding: 0.2rem 0.8rem; border-radius: 30px; font-size: 0.75rem; }
-        .icon { font-size: 1.2rem; }
-        @media (max-width: 600px) { body { padding: 1rem; } .container { padding: 1.2rem; } h1 { font-size: 1.6rem; } }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Programme hybride 12 semaines : calisthenics, force, endurance, skills, garde-fous médicaux et générateur de séances interactif." />
+  <title>Programme Hybride · 12 semaines · v6 interactive</title>
+  <style>
+    :root{
+      --bg:#080b12;--bg2:#0d1320;--panel:#121a2a;--panel2:#172236;--line:#2b3b52;--text:#eef5ff;--muted:#a9b8cc;--soft:#d7e5f7;
+      --blue:#60a5fa;--cyan:#22d3ee;--green:#34d399;--yellow:#fbbf24;--orange:#fb923c;--red:#f87171;--violet:#a78bfa;--pink:#f472b6;
+      --radius:22px;--shadow:0 20px 60px rgba(0,0,0,.35);--focus:0 0 0 4px rgba(96,165,250,.28);
+    }
+    [data-theme="light"]{--bg:#f5f7fb;--bg2:#ecf2fb;--panel:#ffffff;--panel2:#f8fbff;--line:#d7e1ee;--text:#102033;--muted:#55677d;--soft:#27384d;--shadow:0 18px 55px rgba(21,40,70,.14)}
+    *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;background:radial-gradient(circle at top left,rgba(96,165,250,.22),transparent 36%),radial-gradient(circle at 85% 10%,rgba(167,139,250,.18),transparent 34%),linear-gradient(135deg,var(--bg),var(--bg2));color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.55;min-height:100vh}
+    a{color:inherit} button,input,select,textarea{font:inherit} button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:none;box-shadow:var(--focus)}
+    .app{width:min(1480px,calc(100% - 28px));margin:14px auto 80px}.hero{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:32px;padding:clamp(22px,4vw,46px);box-shadow:var(--shadow);background:linear-gradient(135deg,rgba(18,26,42,.96),rgba(13,19,32,.9))}.hero:before{content:"";position:absolute;inset:-40%;background:conic-gradient(from 120deg,transparent,rgba(34,211,238,.18),transparent,rgba(52,211,153,.14),transparent);animation:spin 18s linear infinite;opacity:.8}.hero>*{position:relative}@keyframes spin{to{transform:rotate(360deg)}}
+    .topbar{display:flex;gap:12px;justify-content:space-between;align-items:center;flex-wrap:wrap;margin-bottom:26px}.brand{display:flex;align-items:center;gap:12px}.logo{width:54px;height:54px;border-radius:18px;background:linear-gradient(135deg,var(--blue),var(--violet));display:grid;place-items:center;font-size:1.65rem;box-shadow:0 12px 30px rgba(96,165,250,.28)}.eyebrow{color:var(--muted);font-size:.86rem}.title{font-size:clamp(2rem,5vw,4.8rem);line-height:.95;margin:10px 0 16px;letter-spacing:-.06em;max-width:980px}.subtitle{font-size:clamp(1rem,2.1vw,1.32rem);color:var(--soft);max-width:920px}.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}.chip,.btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:999px;padding:.7rem 1rem;background:rgba(255,255,255,.05);color:var(--text);text-decoration:none}.chip{font-size:.82rem;color:var(--soft);padding:.45rem .75rem}.btn{cursor:pointer;font-weight:800;transition:.18s transform,.18s background,.18s border-color}.btn:hover{transform:translateY(-1px);border-color:rgba(96,165,250,.7);background:rgba(96,165,250,.14)}.btn.primary{background:linear-gradient(135deg,var(--blue),var(--violet));border-color:transparent;color:white}.btn.good{background:rgba(52,211,153,.15);border-color:rgba(52,211,153,.45)}.btn.warn{background:rgba(251,191,36,.14);border-color:rgba(251,191,36,.45)}.btn.danger{background:rgba(248,113,113,.14);border-color:rgba(248,113,113,.45)}.btn.small{padding:.48rem .72rem;font-size:.82rem}.toggle{margin-left:auto}
+    .nav{position:sticky;top:0;z-index:50;margin:14px 0 18px;backdrop-filter:blur(18px);background:rgba(8,11,18,.72);border:1px solid var(--line);border-radius:999px;padding:8px;display:flex;gap:6px;overflow:auto;box-shadow:0 10px 35px rgba(0,0,0,.22)}[data-theme="light"] .nav{background:rgba(255,255,255,.74)}.nav a{white-space:nowrap;text-decoration:none;border-radius:999px;padding:.63rem .86rem;color:var(--muted);font-weight:800;font-size:.9rem}.nav a:hover,.nav a.active{background:rgba(96,165,250,.16);color:var(--text)}
+    section{scroll-margin-top:90px;margin:18px 0}.section-title{display:flex;align-items:end;justify-content:space-between;gap:14px;flex-wrap:wrap;margin:30px 4px 14px}.section-title h2{margin:0;font-size:clamp(1.45rem,3vw,2.3rem);letter-spacing:-.04em}.section-title p{margin:.3rem 0 0;color:var(--muted);max-width:760px}.grid{display:grid;gap:16px}.grid.cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}.grid.cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}.grid.cols-4{grid-template-columns:repeat(4,minmax(0,1fr))}@media(max-width:1080px){.grid.cols-4,.grid.cols-3{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:760px){.app{width:min(100% - 18px,1480px);margin-top:9px}.hero{border-radius:24px}.grid.cols-2,.grid.cols-3,.grid.cols-4{grid-template-columns:1fr}.nav{border-radius:18px}.title{letter-spacing:-.045em}.topbar .toggle{margin-left:0}}
+    .card{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}.card.compact{padding:14px}.card h3{margin:0 0 12px;font-size:1.1rem}.muted{color:var(--muted)}.mini{font-size:.84rem}.tag{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:.25rem .6rem;background:rgba(255,255,255,.04);font-size:.75rem;color:var(--soft);font-weight:700}.tag.green{border-color:rgba(52,211,153,.4);color:var(--green)}.tag.yellow{border-color:rgba(251,191,36,.45);color:var(--yellow)}.tag.red{border-color:rgba(248,113,113,.45);color:var(--red)}.tag.blue{border-color:rgba(96,165,250,.45);color:var(--blue)}.tag.violet{border-color:rgba(167,139,250,.45);color:var(--violet)}
+    .control{display:grid;gap:7px;margin:12px 0}.control label{display:flex;justify-content:space-between;gap:10px;font-weight:850}.value{display:inline-flex;min-width:54px;justify-content:center;background:rgba(96,165,250,.13);border:1px solid rgba(96,165,250,.28);border-radius:999px;padding:.08rem .55rem;color:var(--text)}input[type="range"]{width:100%;accent-color:var(--blue)}select,input[type="number"],input[type="text"]{width:100%;border:1px solid var(--line);border-radius:14px;background:rgba(0,0,0,.12);color:var(--text);padding:.7rem .8rem}select option{background:#111827;color:white}[data-theme="light"] select option{background:white;color:#102033}.segmented{display:flex;gap:8px;flex-wrap:wrap}.segmented button{border:1px solid var(--line);border-radius:14px;padding:.6rem .8rem;background:rgba(255,255,255,.04);color:var(--muted);cursor:pointer;font-weight:850}.segmented button.active{background:rgba(96,165,250,.18);color:var(--text);border-color:rgba(96,165,250,.55)}
+    .dashboard{display:grid;grid-template-columns:1.05fr 1.6fr .9fr;gap:16px}@media(max-width:1180px){.dashboard{grid-template-columns:1fr 1fr}.dashboard .span{grid-column:1/-1}}@media(max-width:760px){.dashboard{grid-template-columns:1fr}}
+    .gauge-wrap{display:grid;place-items:center;gap:8px}.gauge{--p:50;--c:var(--blue);width:min(230px,65vw);aspect-ratio:1;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--c) calc(var(--p)*1%),rgba(255,255,255,.08) 0);position:relative}.gauge:after{content:"";position:absolute;inset:13px;border-radius:50%;background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line)}.gauge strong{position:relative;z-index:1;font-size:2.6rem;letter-spacing:-.06em}.gauge span{position:relative;z-index:1;color:var(--muted);font-size:.78rem;font-weight:800;text-transform:uppercase}.metric-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.metric{border:1px solid var(--line);border-radius:18px;padding:13px;background:rgba(255,255,255,.035)}.metric b{display:block;font-size:1.65rem;letter-spacing:-.05em}.metric small{color:var(--muted);font-weight:700}.notice{border-left:5px solid var(--blue);padding:13px 15px;background:rgba(96,165,250,.11);border-radius:16px}.notice.warn{border-color:var(--yellow);background:rgba(251,191,36,.11)}.notice.danger{border-color:var(--red);background:rgba(248,113,113,.11)}.notice.good{border-color:var(--green);background:rgba(52,211,153,.11)}
+    .audit-list{display:grid;gap:10px}.audit-item{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--line);border-radius:18px;padding:13px;background:rgba(255,255,255,.035)}.audit-item .dot{width:34px;height:34px;border-radius:12px;display:grid;place-items:center;flex:none;background:rgba(96,165,250,.16)}
+    .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}.tab{cursor:pointer;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.04);color:var(--muted);padding:.58rem .9rem;font-weight:850}.tab.active{color:var(--text);background:rgba(96,165,250,.17);border-color:rgba(96,165,250,.45)}.tab-panel{display:none}.tab-panel.active{display:block}.week-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}@media(max-width:980px){.week-cards{grid-template-columns:repeat(2,1fr)}}@media(max-width:620px){.week-cards{grid-template-columns:1fr}}.week-card{border:1px solid var(--line);border-radius:20px;padding:14px;background:rgba(255,255,255,.035)}.week-card strong{display:block;margin-bottom:5px}.progress-line{height:10px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden}.progress-line i{display:block;height:100%;width:var(--w);background:linear-gradient(90deg,var(--green),var(--blue),var(--violet));border-radius:999px}
+    details{border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.035);padding:0;overflow:hidden}details+details{margin-top:10px}summary{cursor:pointer;list-style:none;padding:14px 16px;font-weight:900;display:flex;justify-content:space-between;gap:14px}summary::-webkit-details-marker{display:none}summary:after{content:"⌄";color:var(--muted);transition:.2s}details[open] summary:after{transform:rotate(180deg)}.details-body{padding:0 16px 16px;color:var(--soft)}
+    .session-list{display:grid;gap:12px}.session{border:1px solid var(--line);border-radius:20px;padding:14px;background:rgba(255,255,255,.04)}.session-head{display:flex;justify-content:space-between;gap:12px;align-items:start;flex-wrap:wrap}.exercise-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}@media(max-width:1050px){.exercise-grid{grid-template-columns:1fr 1fr}}@media(max-width:650px){.exercise-grid{grid-template-columns:1fr}}.exercise{border:1px solid rgba(255,255,255,.09);border-radius:16px;padding:12px;background:rgba(0,0,0,.08)}.exercise b{display:block}.exercise small{color:var(--muted)}
+    .checklist{display:grid;gap:8px}.check{display:flex;gap:10px;align-items:center;border:1px solid var(--line);border-radius:16px;padding:10px 12px;background:rgba(255,255,255,.035)}.check input{width:18px;height:18px;accent-color:var(--green)}.check.done{opacity:.7;text-decoration:line-through}.library{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}@media(max-width:980px){.library{grid-template-columns:repeat(2,1fr)}}@media(max-width:620px){.library{grid-template-columns:1fr}}.lib-card{border:1px solid var(--line);border-radius:18px;padding:14px;background:rgba(255,255,255,.035)}.lib-card .muscle{color:var(--muted);font-size:.82rem}.kbd{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:rgba(255,255,255,.08);border:1px solid var(--line);border-radius:8px;padding:.06rem .35rem}
+    .floating{position:fixed;right:18px;bottom:18px;z-index:80;display:flex;flex-direction:column;gap:8px}.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);opacity:0;transition:.25s;z-index:100;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:12px 16px;box-shadow:var(--shadow);max-width:calc(100% - 28px)}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+    .print-only{display:none}@media print{body{background:white;color:#111}.nav,.hero-actions,.floating,.no-print{display:none!important}.app{width:100%;margin:0}.hero,.card{box-shadow:none;background:white;color:#111;border-color:#ddd}.print-only{display:block}.section-title{page-break-after:avoid}.card,details,.session{break-inside:avoid}.details-body{display:block}.muted,.mini,.details-body{color:#333}.tag,.chip{color:#111;border-color:#bbb}}
+  </style>
 </head>
-<body>
-<div class="container">
+<body data-theme="dark">
+  <div class="app" id="top">
+    <header class="hero">
+      <div class="topbar">
+        <div class="brand"><div class="logo">🏋️</div><div><div class="eyebrow">v6 · site interactif autonome · mobile first</div><strong>Programme hybride 12 semaines</strong></div></div>
+        <div class="segmented toggle no-print" aria-label="Changer le thème"><button type="button" data-theme-btn="dark" class="active">🌙 sombre</button><button type="button" data-theme-btn="light">☀️ clair</button></div>
+      </div>
+      <h1 class="title">Force, skills, endurance calisthenics — sans s’éparpiller.</h1>
+      <p class="subtitle">Un tableau de bord qui adapte les séances à la récupération, à la tension artérielle, au pouls, au temps disponible, au niveau réel et à la priorité technique. Le site ne remplace pas un avis médical : il aide à choisir une séance raisonnable et progressive.</p>
+      <div class="hero-actions no-print">
+        <a class="btn primary" href="#dashboard">⚡ Lancer le diagnostic</a>
+        <a class="btn" href="#generator">🎲 Générer une séance</a>
+        <a class="btn" href="#plan">📅 Voir les 12 semaines</a>
+        <button class="btn good" type="button" id="saveBtn">💾 Sauvegarder</button>
+        <button class="btn warn" type="button" id="printBtn">🖨️ Imprimer / PDF</button>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:18px">
+        <span class="chip">RIR / RPE</span><span class="chip">Deload automatique</span><span class="chip">Cadrans santé</span><span class="chip">Accordéons</span><span class="chip">Export JSON</span><span class="chip">Responsive</span>
+      </div>
+    </header>
 
-    <h1>
-        🏋️ Programme hybride · 12 semaines
-        <small><span class="badge">v4 · 5 scénarios dynamiques</span></small>
-    </h1>
+    <nav class="nav no-print" aria-label="Navigation principale">
+      <a href="#audit">Audit</a><a href="#dashboard">Diagnostic</a><a href="#generator">Générateur</a><a href="#plan">Plan 12 semaines</a><a href="#skills">Skills</a><a href="#library">Bibliothèque</a><a href="#suivi">Suivi</a><a href="#securite">Sécurité</a>
+    </nav>
 
-    <div class="grid-2col">
+    <section id="audit">
+      <div class="section-title"><div><h2>Audit synthétique du programme initial</h2><p>Le fichier de départ contenait une base pertinente — sliders, 5 scénarios et estimation calorique — mais restait trop linéaire pour piloter une progression réelle.</p></div><span class="tag blue">audit intégré</span></div>
+      <div class="grid cols-4 audit-list">
+        <div class="audit-item"><div class="dot">✅</div><div><b>Points conservés</b><p class="muted mini">Paramètres corporels, motivation, météo, temps disponible, génération de scénarios et logique MET.</p></div></div>
+        <div class="audit-item"><div class="dot">⚕️</div><div><b>Ajout santé</b><p class="muted mini">Interprétation prudente tension / pouls / fatigue, alertes, choix du deload, RIR et règles d’arrêt.</p></div></div>
+        <div class="audit-item"><div class="dot">🧭</div><div><b>Ajout technique</b><p class="muted mini">Plan 12 semaines, blocs force, endurance, skills, tests, progression et alternatives par niveau.</p></div></div>
+        <div class="audit-item"><div class="dot">📱</div><div><b>Ajout ergonomie</b><p class="muted mini">Navigation sticky, cadrans, tabs, accordéons, checklist, bibliothèque filtrable, sauvegarde locale et export.</p></div></div>
+      </div>
+    </section>
+
+    <section id="dashboard">
+      <div class="section-title"><div><h2>Diagnostic adaptatif</h2><p>Ajustez les curseurs. Les cadrans, l’alerte santé, le volume cible et la séance recommandée se recalculent instantanément.</p></div><span id="statusTag" class="tag green">prêt</span></div>
+      <div class="dashboard">
         <div class="card">
-            <h3><span class="icon">🧬</span> Paramètres somatiques & mental</h3>
-            <div class="param-group">
-                <div class="param-item">
-                    <label>Taille (cm) <span class="value-indicator" id="tailleVal">176</span></label>
-                    <input type="range" id="taille" min="150" max="210" value="176" step="1">
-                </div>
-                <div class="param-item">
-                    <label>Masse (kg) <span class="value-indicator" id="masseVal">74</span></label>
-                    <input type="range" id="masse" min="50" max="120" value="74" step="0.5">
-                </div>
-                <div class="param-item">
-                    <label>Pression systolique <span class="value-indicator" id="pressionVal">120</span></label>
-                    <input type="range" id="pression" min="90" max="160" value="120" step="1">
-                </div>
-                <div class="param-item">
-                    <label>Pouls au repos (bpm) <span class="value-indicator" id="poulsVal">62</span></label>
-                    <input type="range" id="pouls" min="45" max="100" value="62" step="1">
-                </div>
-                <div class="param-item">
-                    <label>Sédentarité (dernières 48h) <span class="value-indicator" id="sedentVal">3</span></label>
-                    <input type="range" id="sedent" min="1" max="5" value="3" step="1">
-                    <div style="display:flex;justify-content:space-between;font-size:0.7rem;color:#8b949e;"><span>très actif</span><span>moyen</span><span>très sédentaire</span></div>
-                </div>
-                <div class="param-item">
-                    <label>Motivation / détermination <span class="value-indicator" id="motivVal">4</span></label>
-                    <input type="range" id="motiv" min="1" max="5" value="4" step="1">
-                    <div style="display:flex;justify-content:space-between;font-size:0.7rem;color:#8b949e;"><span>faible</span><span>moyenne</span><span>max</span></div>
-                </div>
-                <div class="param-item">
-                    <label>Envie de sortir / extérieur <span class="value-indicator" id="envieSortirVal">3</span></label>
-                    <input type="range" id="envieSortir" min="1" max="5" value="3" step="1">
-                    <div style="display:flex;justify-content:space-between;font-size:0.7rem;color:#8b949e;"><span>intérieur</span><span>mixte</span><span>extérieur</span></div>
-                </div>
-            </div>
+          <h3>🧬 Profil & récupération</h3>
+          <div class="control"><label>Âge <span class="value" id="ageVal">21</span></label><input id="age" type="range" min="16" max="65" value="21" /></div>
+          <div class="control"><label>Taille <span class="value" id="tailleVal">176 cm</span></label><input id="taille" type="range" min="145" max="210" value="176" /></div>
+          <div class="control"><label>Masse <span class="value" id="masseVal">74 kg</span></label><input id="masse" type="range" min="45" max="125" step="0.5" value="74" /></div>
+          <div class="control"><label>Sommeil nuit précédente <span class="value" id="sommeilVal">7 h</span></label><input id="sommeil" type="range" min="3" max="10" step="0.5" value="7" /></div>
+          <div class="control"><label>Courbatures / douleurs <span class="value" id="douleurVal">2/10</span></label><input id="douleur" type="range" min="0" max="10" value="2" /></div>
+          <div class="control"><label>Motivation <span class="value" id="motivVal">4/5</span></label><input id="motiv" type="range" min="1" max="5" value="4" /></div>
         </div>
-
+        <div class="card span">
+          <h3>📊 Cadrans de décision</h3>
+          <div class="grid cols-3">
+            <div class="gauge-wrap"><div class="gauge" id="readinessGauge"><strong id="readinessVal">76</strong><span>readiness</span></div><div id="readinessText" class="muted mini">Séance normale possible.</div></div>
+            <div class="gauge-wrap"><div class="gauge" id="chargeGauge"><strong id="chargeVal">64</strong><span>charge cible</span></div><div id="chargeText" class="muted mini">RIR 2-3 conseillé.</div></div>
+            <div class="gauge-wrap"><div class="gauge" id="healthGauge"><strong id="healthVal">86</strong><span>prudence</span></div><div id="healthText" class="muted mini">Pas d’alerte majeure saisie.</div></div>
+          </div>
+          <div id="medicalNotice" class="notice good" style="margin-top:16px"><b>Feu vert relatif.</b> Restez sur une montée progressive, sans échec systématique.</div>
+          <div class="metric-grid" style="margin-top:14px">
+            <div class="metric"><b id="bmiVal">23.9</b><small>IMC indicatif</small></div>
+            <div class="metric"><b id="fcmaxVal">199</b><small>FC max estimée</small></div>
+            <div class="metric"><b id="rirVal">2-3</b><small>RIR conseillé</small></div>
+            <div class="metric"><b id="kcalVal">420</b><small>kcal estimées séance</small></div>
+          </div>
+        </div>
         <div class="card">
-            <h3><span class="icon">⚙️</span> Contraintes & visée</h3>
-            <div class="param-group">
-                <div class="param-item">
-                    <label>Temps disponible (min) <span class="value-indicator" id="tempsVal">60</span></label>
-                    <input type="range" id="temps" min="20" max="120" value="60" step="5">
-                </div>
-                <div class="param-item">
-                    <label>Intempéries / praticable <span class="value-indicator" id="intemperieVal">3</span></label>
-                    <input type="range" id="intemperie" min="1" max="5" value="3" step="1">
-                    <div style="display:flex;justify-content:space-between;font-size:0.7rem;color:#8b949e;"><span>praticable</span><span>moyen</span><span>impraticable</span></div>
-                </div>
-                <div class="param-item">
-                    <label>Visée technique (priorité) </label>
-                    <select id="viseeTech" class="select-style">
-                        <option value="full">Complet (force + skills + endurance)</option>
-                        <option value="upper">Haut du corps (tractions, dips, pompes)</option>
-                        <option value="lower">Membres inférieurs + core</option>
-                        <option value="core">Abdominaux / gainage prioritaire</option>
-                        <option value="skills">Skills (front lever, handstand, HSPU)</option>
-                    </select>
-                </div>
-                <div class="param-item">
-                    <label>Niveau d'intensité globale </label>
-                    <select id="niveauIntensite" class="select-style">
-                        <option value="1">1 · récupération / deload</option>
-                        <option value="2">2 · léger (RIR 3-4)</option>
-                        <option value="3" selected>3 · modéré (RIR 2-3)</option>
-                        <option value="4">4 · soutenu (RIR 1-2)</option>
-                        <option value="5">5 · maximal (RIR 0-1)</option>
-                    </select>
-                </div>
-                <div class="param-item">
-                    <label>Niveau d'endurance calisthenics </label>
-                    <select id="niveauEndurance" class="select-style">
-                        <option value="1">1 · débutant (max tractions < 8)</option>
-                        <option value="2">2 · intermédiaire (8-15 tractions)</option>
-                        <option value="3" selected>3 · confirmé (15-25 tractions)</option>
-                        <option value="4">4 · avancé (> 25 tractions)</option>
-                        <option value="5">5 · expert (muscle-up + volume)</option>
-                    </select>
-                </div>
-            </div>
+          <h3>⚕️ Paramètres de sécurité</h3>
+          <div class="control"><label>Pression systolique <span class="value" id="pressionVal">120</span></label><input id="pression" type="range" min="90" max="190" value="120" /></div>
+          <div class="control"><label>Pouls au repos <span class="value" id="poulsVal">62 bpm</span></label><input id="pouls" type="range" min="42" max="115" value="62" /></div>
+          <div class="control"><label>Sédentarité 48 h <span class="value" id="sedentVal">3/5</span></label><input id="sedent" type="range" min="1" max="5" value="3" /></div>
+          <div class="control"><label>Temps disponible <span class="value" id="tempsVal">60 min</span></label><input id="temps" type="range" min="20" max="120" step="5" value="60" /></div>
+          <div class="control"><label>Environnement</label><select id="environment"><option value="home">Maison / chambre</option><option value="park">Parc / barre extérieure</option><option value="gym" selected>Salle / matériel complet</option><option value="travel">Déplacement / peu de matériel</option></select></div>
         </div>
-    </div>
+      </div>
+    </section>
 
-    <div class="btn-group">
-        <button class="btn active" id="btnGenerer">🔄 Générer les 5 scénarios</button>
-        <button class="btn" id="btnReset">↺ Réinitialiser</button>
-        <span class="pill" style="margin-left:auto;">5 niveaux d'intensité · combinés</span>
-    </div>
+    <section id="generator">
+      <div class="section-title"><div><h2>Générateur de séance</h2><p>Choisissez la priorité du jour, puis générez une séance. Les blocs s’adaptent au temps, au niveau et au score de prudence.</p></div><button class="btn primary no-print" id="generateBtn">🎲 Générer</button></div>
+      <div class="grid cols-3">
+        <div class="card compact"><h3>🎯 Priorité</h3><div class="segmented" id="goalSeg"><button class="active" data-goal="hybrid">Hybride</button><button data-goal="force">Force</button><button data-goal="endurance">Set & reps</button><button data-goal="skills">Skills</button><button data-goal="deload">Deload</button></div></div>
+        <div class="card compact"><h3>🏁 Niveau</h3><select id="level"><option value="1">1 · reprise / max tractions &lt; 5</option><option value="2">2 · base / 5-10 tractions</option><option value="3" selected>3 · intermédiaire / 10-18 tractions</option><option value="4">4 · confirmé / 18-25 tractions</option><option value="5">5 · avancé / muscle-up solide</option></select></div>
+        <div class="card compact"><h3>🧰 Matériel</h3><select id="equipment"><option value="body">Poids du corps</option><option value="bands">Élastiques</option><option value="bar" selected>Barre + parallettes</option><option value="weighted">Lest + barre + dips</option></select></div>
+      </div>
+      <div class="card" style="margin-top:16px"><div id="sessionOutput" class="session-list"></div></div>
+    </section>
 
-    <div class="scenario-box">
-        <h3><span>📋</span> 5 scénarios compatibles</h3>
-        <div id="scenarioList" class="scenario-list">
-            <!-- généré par JS -->
-        </div>
-        <div style="margin-top:0.8rem;font-size:0.85rem;color:#8b949e;border-top:1px solid #21262d;padding-top:0.8rem;">
-            ⚡ Les scénarios s'adaptent à vos paramètres. Estimation calorique basée sur le MET, le poids et la durée.
-        </div>
-    </div>
+    <section id="plan">
+      <div class="section-title"><div><h2>Plan 12 semaines</h2><p>Une progression simple : construire, intensifier, consolider, tester. Le volume n’augmente que si les indicateurs restent corrects.</p></div><span class="tag violet">3 mésocycles + deload</span></div>
+      <div class="card">
+        <div class="tabs no-print" id="planTabs"><button class="tab active" data-tab="w1">Semaines 1-4</button><button class="tab" data-tab="w2">Semaines 5-8</button><button class="tab" data-tab="w3">Semaines 9-12</button><button class="tab" data-tab="micro">Microcycle type</button></div>
+        <div id="w1" class="tab-panel active"><div class="week-cards"><div class="week-card"><strong>S1 · calibrage</strong><p class="muted mini">RIR 3, volume technique, aucun échec.</p><div class="progress-line"><i style="--w:35%"></i></div></div><div class="week-card"><strong>S2 · base</strong><p class="muted mini">+1 série sur deux exercices clés.</p><div class="progress-line"><i style="--w:45%"></i></div></div><div class="week-card"><strong>S3 · densité</strong><p class="muted mini">Repos légèrement réduits sur endurance.</p><div class="progress-line"><i style="--w:58%"></i></div></div><div class="week-card"><strong>S4 · deload</strong><p class="muted mini">-35 à -50% volume, technique propre.</p><div class="progress-line"><i style="--w:28%"></i></div></div></div></div>
+        <div id="w2" class="tab-panel"><div class="week-cards"><div class="week-card"><strong>S5 · force</strong><p class="muted mini">Tractions/dips 5x3-5, RIR 2.</p><div class="progress-line"><i style="--w:62%"></i></div></div><div class="week-card"><strong>S6 · volume</strong><p class="muted mini">8-12 reps, amplitude stricte.</p><div class="progress-line"><i style="--w:70%"></i></div></div><div class="week-card"><strong>S7 · intensification</strong><p class="muted mini">RIR 1-2, peu d’échec.</p><div class="progress-line"><i style="--w:80%"></i></div></div><div class="week-card"><strong>S8 · deload actif</strong><p class="muted mini">Mobilité, skills faciles, tests légers.</p><div class="progress-line"><i style="--w:38%"></i></div></div></div></div>
+        <div id="w3" class="tab-panel"><div class="week-cards"><div class="week-card"><strong>S9 · spécialisation</strong><p class="muted mini">Priorité point faible : MU, FL ou HSPU.</p><div class="progress-line"><i style="--w:72%"></i></div></div><div class="week-card"><strong>S10 · pic contrôlé</strong><p class="muted mini">Force + densité, RIR 1 ponctuel.</p><div class="progress-line"><i style="--w:86%"></i></div></div><div class="week-card"><strong>S11 · affûtage</strong><p class="muted mini">Volume bas, intensité propre.</p><div class="progress-line"><i style="--w:58%"></i></div></div><div class="week-card"><strong>S12 · tests</strong><p class="muted mini">Tests max propres, pas de douleur.</p><div class="progress-line"><i style="--w:50%"></i></div></div></div></div>
+        <div id="micro" class="tab-panel"><div class="grid cols-3"><div class="week-card"><strong>Lundi · Pull force + front lever</strong><p class="muted mini">Tractions lestées, row, FL raises, biceps optionnel.</p></div><div class="week-card"><strong>Mardi · Jambes + core</strong><p class="muted mini">Squat/fentes, RDL, mollets, hollow, side plank.</p></div><div class="week-card"><strong>Mercredi · Push + handstand</strong><p class="muted mini">Dips, pike/HSPU, pseudo-planche push-ups, HS holds.</p></div><div class="week-card"><strong>Vendredi · Set & reps</strong><p class="muted mini">Ladders tractions/dips/pompes, EMOM muscle-up technique.</p></div><div class="week-card"><strong>Samedi · Hybride léger</strong><p class="muted mini">Skills, mobilité épaules, volume facile, aucune dette excessive.</p></div><div class="week-card"><strong>Dimanche · repos</strong><p class="muted mini">Marche, mobilité douce, sommeil et nutrition.</p></div></div></div>
+      </div>
+    </section>
 
-    <div style="display:flex;flex-wrap:wrap;gap:1rem;margin:1.5rem 0;background:#0d1117;padding:1.2rem;border-radius:12px;border:1px solid #30363d;">
-        <div style="flex:1;min-width:140px;">📅 <strong>Lundi</strong> Pull force + FL + MU</div>
-        <div style="flex:1;min-width:140px;">🦵 <strong>Mardi</strong> Jambes + core</div>
-        <div style="flex:1;min-width:140px;">💪 <strong>Mercredi</strong> Push + handstand</div>
-        <div style="flex:1;min-width:140px;">🏃 <strong>Vendredi</strong> Endurance calisthenics</div>
-        <div style="flex:1;min-width:140px;">🧘 <strong>Samedi</strong> Volume + skills légers</div>
-    </div>
+    <section id="skills">
+      <div class="section-title"><div><h2>Menus techniques : skills</h2><p>Déroulez seulement les skills travaillés. Chaque progression privilégie qualité, fréquence et faible fatigue nerveuse.</p></div></div>
+      <div class="grid cols-3">
+        <details open><summary>Front lever</summary><div class="details-body"><p><b>Ordre :</b> scapula pulls → tuck hold → advanced tuck → one-leg → straddle.</p><p><b>Dose :</b> 3-5 séries de 6-12 s, RPE 7 maximum, avant la force.</p><p><b>Erreur fréquente :</b> chercher trop tôt le levier complet et casser la rétroversion du bassin.</p></div></details>
+        <details><summary>Handstand</summary><div class="details-body"><p><b>Ordre :</b> wall line drill → chest-to-wall hold → shoulder taps → kick-up contrôlé.</p><p><b>Dose :</b> 8-12 minutes, petites tentatives, repos complet.</p><p><b>Repère :</b> mains actives, épaules poussées, côtes rentrées.</p></div></details>
+        <details><summary>HSPU</summary><div class="details-body"><p><b>Ordre :</b> pike push-up → deficit pike → wall eccentric → partial HSPU → full HSPU.</p><p><b>Dose :</b> 4-6 séries de 3-6 reps, RIR 2.</p><p><b>Attention :</b> stopper si douleur cervicale, poignet ou épaule.</p></div></details>
+        <details><summary>Muscle-up</summary><div class="details-body"><p><b>Ordre :</b> tractions explosives → chest-to-bar → transition basse → négatives → singles propres.</p><p><b>Dose :</b> EMOM 6-10 minutes de 1 rep technique, sans grinder.</p><p><b>Repère :</b> tirer haut puis basculer vite, pas arracher avec les coudes.</p></div></details>
+        <details><summary>Endurance calisthenics</summary><div class="details-body"><p><b>Formats :</b> ladders 1-2-3-4-5, EMOM, AMRAP sous-maximal, density block 10 min.</p><p><b>Règle :</b> garder 2-4 reps en réserve sur presque toutes les séries.</p><p><b>Objectif :</b> accumuler de la qualité, pas survivre à une punition.</p></div></details>
+        <details><summary>Mobilité protectrice</summary><div class="details-body"><p>Poignets, épaules, extension thoracique, hanches et chevilles : 6-10 minutes avant/après selon le besoin.</p><p>La mobilité devient prioritaire si l’amplitude technique se dégrade.</p></div></details>
+      </div>
+    </section>
 
-    <div class="footer-note">
-        <span>📌 Programme hybride · 12 semaines · Force lestée, skills, endurance</span>
-        <span>⚙️ Dépôt GitHub · version 5 scénarios + calories</span>
-    </div>
-</div>
+    <section id="library">
+      <div class="section-title"><div><h2>Bibliothèque filtrable</h2><p>Utilisez les boutons pour afficher rapidement les exercices adaptés à l’objectif du jour.</p></div></div>
+      <div class="card">
+        <div class="segmented no-print" id="filterSeg"><button class="active" data-filter="all">Tout</button><button data-filter="pull">Pull</button><button data-filter="push">Push</button><button data-filter="legs">Jambes</button><button data-filter="core">Core</button><button data-filter="skill">Skills</button></div>
+        <div class="library" id="exerciseLibrary" style="margin-top:14px"></div>
+      </div>
+    </section>
 
-<script>
-    (function() {
-        "use strict";
+    <section id="suivi">
+      <div class="section-title"><div><h2>Suivi express</h2><p>Cochez les points terminés. Le suivi reste dans le navigateur après sauvegarde locale.</p></div><button class="btn no-print" id="resetChecks">↺ Réinitialiser les coches</button></div>
+      <div class="grid cols-2">
+        <div class="card"><h3>✅ Checklist séance</h3><div class="checklist" id="checklist"></div></div>
+        <div class="card"><h3>📤 Export</h3><p class="muted">Exportez vos réglages et votre séance du jour en JSON, ou copiez le résumé pour votre carnet d’entraînement.</p><div class="hero-actions no-print"><button class="btn primary" id="copySummary">Copier résumé</button><button class="btn" id="exportJson">Télécharger JSON</button></div><textarea id="summaryBox" rows="8" readonly style="margin-top:12px;width:100%;border:1px solid var(--line);border-radius:16px;background:rgba(0,0,0,.12);color:var(--text);padding:12px"></textarea></div>
+      </div>
+    </section>
 
-        // Récupération des éléments
-        const rangeIds = ['taille', 'masse', 'pression', 'pouls', 'sedent', 'motiv', 'envieSortir', 'temps', 'intemperie'];
-        const selectIds = ['viseeTech', 'niveauIntensite', 'niveauEndurance'];
-        const labelIds = ['tailleVal', 'masseVal', 'pressionVal', 'poulsVal', 'sedentVal', 'motivVal', 'envieSortirVal', 'tempsVal', 'intemperieVal'];
+    <section id="securite">
+      <div class="section-title"><div><h2>Garde-fous médicaux & pédagogiques</h2><p>Ces règles sont volontairement prudentes. Elles ne posent pas de diagnostic et ne remplacent pas un professionnel de santé.</p></div></div>
+      <div class="grid cols-2">
+        <div class="card"><h3>⚠️ Quand réduire ou arrêter</h3><div class="notice danger"><b>Stop immédiat</b> si douleur thoracique, malaise, essoufflement inhabituel, trouble neurologique, douleur aiguë, ou tension très élevée.</div><ul class="muted"><li>Douleur articulaire qui augmente : remplacer l’exercice, réduire amplitude/charge.</li><li>Pouls au repos anormalement haut pour vous : séance légère ou repos.</li><li>Deux mauvaises nuits + douleurs fortes : deload automatique.</li></ul></div>
+        <div class="card"><h3>📚 Repères utilisés</h3><p class="muted">Les adultes gagnent à cumuler activité aérobie hebdomadaire et renforcement musculaire au moins deux jours par semaine. Pour la résistance, le programme privilégie la régularité, l’effort auto-régulé et les reps en réserve plutôt que l’échec fréquent. Les catégories de tension sont interprétées avec prudence et doivent être confirmées par mesure médicale répétée.</p><p class="mini muted">Sources : OMS, ACSM, American Heart Association.</p></div>
+      </div>
+    </section>
+  </div>
 
-        const ranges = {};
-        const selects = {};
-        const labels = {};
+  <div class="floating no-print"><a class="btn small" href="#top">↑ Haut</a><button class="btn small" id="quickGenerate">🎲</button></div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-        rangeIds.forEach(id => ranges[id] = document.getElementById(id));
-        selectIds.forEach(id => selects[id] = document.getElementById(id));
-        labelIds.forEach(id => labels[id] = document.getElementById(id));
-
-        // Mettre à jour les affichages des valeurs
-        function updateLabels() {
-            rangeIds.forEach(id => {
-                const label = labels[id + 'Val'];
-                if (label && ranges[id]) {
-                    label.textContent = ranges[id].value;
-                }
-            });
-        }
-
-        // Écouteurs pour mise à jour en direct
-        rangeIds.forEach(id => {
-            const el = ranges[id];
-            if (el) {
-                el.addEventListener('input', updateLabels);
-            }
-        });
-
-        // Calcul des calories
-        function calculateCalories(met, weightKg, durationMin) {
-            return Math.round(met * weightKg * (durationMin / 60));
-        }
-
-        // Génération des scénarios
-        function generateScenarios() {
-            console.log('Génération des scénarios déclenchée');
-
-            // Lire les valeurs
-            const weight = parseFloat(ranges.masse.value);
-            const duration = parseInt(ranges.temps.value);
-            const intensite = parseInt(selects.niveauIntensite.value);
-            const endurance = parseInt(selects.niveauEndurance.value);
-            const visee = selects.viseeTech.value;
-            const motiv = parseInt(ranges.motiv.value);
-            const sedent = parseInt(ranges.sedent.value);
-            const envieSortir = parseInt(ranges.envieSortir.value);
-            const intemperie = parseInt(ranges.intemperie.value);
-
-            const estFatigue = sedent >= 4;
-            const motivationHaute = motiv >= 4;
-            const tempsCourt = duration < 40;
-            const tempsLong = duration >= 80;
-            const exterieurOk = envieSortir >= 4 && intemperie <= 2;
-            const interieur = envieSortir <= 2 || intemperie >= 4;
-
-            // Définition des 5 scénarios de base (MET indicatif)
-            const baseScenarios = [
-                { id: 1, titre: '🔹 Récupération / Deload', met: 3.0, tag: 'très léger', desc: 'Volume réduit de 50%. RIR 3-4. Étirements et mobilité. Travail technique pur.' },
-                { id: 2, titre: '🔸 Hypertrophie / Volume', met: 5.5, tag: 'volume modéré', desc: 'Séries de 8-12 reps. 4-5 exercices. Pompes, tractions, dips en straight sets. RIR 2.' },
-                { id: 3, titre: '🔹 Force / Puissance', met: 7.0, tag: 'lourd', desc: '5x3 à 5x5 lesté. Front lever / handstand en début. RIR 1-2. Repos longs.' },
-                { id: 4, titre: '🔸 Endurance / Capacité', met: 8.0, tag: 'densité', desc: 'EMOM, Ladders, Density blocks. Tractions / dips / pompes en grand volume. RIR 2-3.' },
-                { id: 5, titre: '🔹 Hybride Peak', met: 8.5, tag: 'complet', desc: 'Mix force + endurance. Circuit : 3 tractions lourdes, 6 dips, 12 pompes. Skills en début.' }
-            ];
-
-            // Personnalisation
-            const scenarios = baseScenarios.map((s, index) => {
-                let desc = s.desc;
-
-                if (visee === 'upper' || visee === 'skills') {
-                    if (index === 2) desc += ' Priorité aux tractions/dips lestés et HSPU.';
-                    if (index === 3) desc += ' Séries longues de pompes, tractions et muscle-up techniques.';
-                } else if (visee === 'lower') {
-                    if (index === 2) desc += ' Squats lourds, RDL, fentes.';
-                    if (index === 3) desc += ' Squats sautés, step-ups, mollets en endurance.';
-                } else if (visee === 'core') {
-                    desc += ' Gainage, hollow, pallof, toes to bar.';
-                }
-
-                if (tempsCourt) desc += ' · Version rapide (20-30 min) : ne garder que l\'essentiel.';
-                if (tempsLong && (index === 2 || index === 4)) desc += ' · Ajout d\'un finisher bras / abdos.';
-                if (estFatigue && index !== 0) desc += ' · Attention : sédentarité élevée, privilégier RIR 3.';
-                if (motivationHaute && index === 4) desc += ' · Niveau de détermination max : ajouter un test de fin de séance.';
-                if (interieur && (index === 3 || index === 4)) desc += ' · Adapté en intérieur (au poids du corps ou élastiques).';
-                if (exterieurOk && index === 3) desc += ' · Profiter de l\'extérieur pour des tractions à la barre et dips sur banc.';
-
-                const calories = calculateCalories(s.met, weight, duration);
-
-                return {
-                    ...s,
-                    desc: desc,
-                    calories: calories
-                };
-            });
-
-            // Rendu
-            const container = document.getElementById('scenarioList');
-            if (!container) return;
-
-            container.innerHTML = scenarios.map(s => `
-                <div class="scenario-item">
-                    <strong>${s.titre}</strong>
-                    <div class="meta">
-                        <span>Intensité ${s.id} · MET ${s.met.toFixed(1)}</span>
-                        <span class="tag">${s.tag}</span>
-                        <span class="calories-badge">🔥 ~${s.calories} kcal</span>
-                    </div>
-                    <div class="text-muted" style="font-size:0.9rem;">${s.desc}</div>
-                </div>
-            `).join('');
-
-            console.log('Scénarios mis à jour');
-        }
-
-        // Bouton Générer
-        const btnGen = document.getElementById('btnGenerer');
-        if (btnGen) {
-            btnGen.addEventListener('click', function() {
-                console.log('Clic sur Générer');
-                generateScenarios();
-            });
-        }
-
-        // Bouton Réinitialiser
-        const btnReset = document.getElementById('btnReset');
-        if (btnReset) {
-            btnReset.addEventListener('click', function() {
-                console.log('Clic sur Réinitialiser');
-
-                // Valeurs par défaut
-                const defaultVals = {
-                    taille: 176, masse: 74, pression: 120, pouls: 62,
-                    sedent: 3, motiv: 4, envieSortir: 3, temps: 60, intemperie: 3,
-                    viseeTech: 'full', niveauIntensite: '3', niveauEndurance: '3'
-                };
-
-                // Réinitialiser les curseurs
-                rangeIds.forEach(id => {
-                    const el = ranges[id];
-                    if (el && defaultVals[id] !== undefined) {
-                        el.value = defaultVals[id];
-                        // Déclencher l'événement pour mettre à jour l'affichage
-                        el.dispatchEvent(new Event('input', { bubbles: true }));
-                    }
-                });
-
-                // Réinitialiser les selects
-                selectIds.forEach(id => {
-                    const el = selects[id];
-                    if (el && defaultVals[id] !== undefined) {
-                        el.value = defaultVals[id];
-                    }
-                });
-
-                // Mettre à jour les labels (au cas où)
-                updateLabels();
-
-                // Régénérer les scénarios
-                generateScenarios();
-            });
-        }
-
-        // Initialisation
-        updateLabels();
-        generateScenarios();
-
-        console.log('Script initialisé');
-    })();
-</script>
+  <script>
+  (function(){
+    'use strict';
+    const $ = (s,root=document)=>root.querySelector(s); const $$=(s,root=document)=>Array.from(root.querySelectorAll(s));
+    const state={goal:'hybrid',filter:'all'};
+    const els={};
+    const controls=['age','taille','masse','sommeil','douleur','motiv','pression','pouls','sedent','temps','environment','level','equipment'];
+    controls.forEach(id=>els[id]=$("#"+id));
+    const fmt={age:v=>v,taille:v=>v+' cm',masse:v=>Number(v).toFixed(Number(v)%1?1:0)+' kg',sommeil:v=>v+' h',douleur:v=>v+'/10',motiv:v=>v+'/5',pression:v=>v,pouls:v=>v+' bpm',sedent:v=>v+'/5',temps:v=>v+' min'};
+    const exercises=[
+      ['Tractions strictes','pull','Dos / biceps','4x4-8 · RIR 2'],['Tractions lestées','pull','Force verticale','5x3-5 · RIR 1-2'],['Australian rows','pull','Volume dos','4x10-15'],['Scapula pulls','pull skill','Préhab','3x8-12'],['Chest-to-bar','pull skill','Muscle-up','6x2-4'],
+      ['Dips','push','Pecs / triceps','4x5-10'],['Dips lestés','push','Force poussée','5x3-5'],['Pompes tempo','push','Hypertrophie','4x10-20'],['Pike push-ups','push skill','HSPU','5x4-8'],['Pseudo planche push-ups','push skill','Épaules','4x6-10'],
+      ['Squat bulgare','legs','Quadriceps','4x8-12/jambe'],['Fentes marchées','legs','Jambes','3x12/jambe'],['RDL une jambe','legs','Ischios / hanche','3x8-12'],['Mollets','legs','Cheville','4x12-20'],
+      ['Hollow hold','core','Gainage antérieur','4x20-40 s'],['Toes to bar','core','Abdos dynamiques','4x5-10'],['Side plank','core','Obliques','3x30-45 s'],['Dead bug','core','Contrôle lombaire','3x10/side'],
+      ['Front lever tuck','skill pull','Skill','5x8-12 s'],['Handstand wall hold','skill push','Skill','6x20-40 s'],['Muscle-up transition','skill pull','Skill','5x3-5'],['HSPU negative','skill push','Skill','4x2-4']
+    ];
+    const checklistItems=['Échauffement général 5-8 min','Mobilité poignets / épaules / hanches','Bloc skill avant fatigue','Bloc force ou volume principal','Bloc endurance sous-maximal','Retour au calme 4-6 min','Note RIR, douleur, sommeil'];
+    function clamp(n,min,max){return Math.max(min,Math.min(max,n))} function n(id){return Number(els[id].value)}
+    function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200)}
+    function updateLabels(){['age','taille','masse','sommeil','douleur','motiv','pression','pouls','sedent','temps'].forEach(id=>{$('#'+id+'Val').textContent=fmt[id](els[id].value)})}
+    function compute(){
+      const age=n('age'), h=n('taille')/100, w=n('masse'), sleep=n('sommeil'), pain=n('douleur'), motiv=n('motiv'), sbp=n('pression'), rhr=n('pouls'), sed=n('sedent'), time=n('temps');
+      const bmi=w/(h*h), fcmax=Math.round(208-0.7*age);
+      let health=100; if(sbp>=180)health-=80; else if(sbp>=160)health-=45; else if(sbp>=140)health-=25; else if(sbp>=130)health-=12; if(rhr>=100)health-=35; else if(rhr>=85)health-=18; if(pain>=7)health-=35; else if(pain>=5)health-=18; health=clamp(health,0,100);
+      let readiness=65+(sleep-7)*8+(motiv-3)*7-(pain*4)-((sed-3)*5)-Math.max(0,rhr-70)*.7; if(health<60)readiness-=20; readiness=clamp(Math.round(readiness),5,100);
+      let charge=clamp(Math.round((readiness*.62)+(motiv*7)+(time-60)*.12-(pain*2)),10,95); if(health<55)charge=Math.min(charge,35); if(state.goal==='deload')charge=Math.min(charge,32);
+      let rir=charge>82?'1-2':charge>62?'2-3':charge>42?'3-4':'4+'; let met=state.goal==='endurance'?8:state.goal==='force'?6.5:state.goal==='skills'?4.5:state.goal==='deload'?3.2:6.8; if(charge<45)met*=.72; const kcal=Math.round(met*w*time/60);
+      setGauge('#readinessGauge',readiness, readiness<45?'var(--red)':readiness<65?'var(--yellow)':'var(--green)');
+      setGauge('#chargeGauge',charge, charge<45?'var(--cyan)':charge<75?'var(--blue)':'var(--violet)');
+      setGauge('#healthGauge',health, health<45?'var(--red)':health<72?'var(--yellow)':'var(--green)');
+      $('#readinessVal').textContent=readiness; $('#chargeVal').textContent=charge; $('#healthVal').textContent=health; $('#bmiVal').textContent=bmi.toFixed(1); $('#fcmaxVal').textContent=fcmax; $('#rirVal').textContent=rir; $('#kcalVal').textContent=kcal;
+      $('#readinessText').textContent=readiness<45?'Récupération insuffisante : repos actif ou mobilité.':readiness<65?'Séance réduite, technique propre, pas d’échec.':'Séance normale possible.';
+      $('#chargeText').textContent='Charge cible : '+charge+'/100 · RIR '+rir+'.';
+      $('#healthText').textContent=health<45?'Alerte : intensité déconseillée.' : health<72?'Prudence : volume réduit.' : 'Pas d’alerte majeure saisie.';
+      const notice=$('#medicalNotice'), tag=$('#statusTag'); notice.className='notice'; tag.className='tag';
+      if(sbp>=180){notice.classList.add('danger');notice.innerHTML='<b>Signal d’alerte.</b> Une pression systolique ≥ 180 mmHg justifie de ne pas s’entraîner et de demander un avis médical, surtout avec symptômes.';tag.classList.add('red');tag.textContent='stop';}
+      else if(sbp>=160||rhr>=100||pain>=7){notice.classList.add('danger');notice.innerHTML='<b>Séance intense déconseillée.</b> Privilégiez repos, mobilité douce ou avis médical si valeur inhabituelle.';tag.classList.add('red');tag.textContent='prudence forte';}
+      else if(sbp>=140||rhr>=85||pain>=5||readiness<55){notice.classList.add('warn');notice.innerHTML='<b>Feu orange.</b> Réduire volume et intensité : RIR 3-4, pas d’échec, pas de test maximal.';tag.classList.add('yellow');tag.textContent='adapter';}
+      else{notice.classList.add('good');notice.innerHTML='<b>Feu vert relatif.</b> Restez progressif : échauffement, technique propre et arrêt si signal inhabituel.';tag.classList.add('green');tag.textContent='prêt';}
+      return {age,h,w,bmi,fcmax,health,readiness,charge,rir,kcal,time};
+    }
+    function setGauge(sel,p,c){const g=$(sel);g.style.setProperty('--p',p);g.style.setProperty('--c',c)}
+    function block(title,items,tags=''){return `<div class="session"><div class="session-head"><div><h3>${title}</h3><div>${tags}</div></div></div><div class="exercise-grid">${items.map(x=>`<div class="exercise"><b>${x[0]}</b><small>${x[1]}</small><p class="muted mini">${x[2]}</p></div>`).join('')}</div></div>`}
+    function generateSession(){
+      const c=compute(), level=n('level'), eq=els.equipment.value; let goal=state.goal; if(c.health<55||c.readiness<42)goal='deload'; const short=c.time<45, long=c.time>80;
+      const warm=[['Respiration + mobilité','4-6 min','Épaules, poignets, hanches, chevilles'],['Montée en charge','2-4 séries','Versions faciles des mouvements du jour']];
+      let main=[], second=[], fin=[];
+      if(goal==='force'){main=[['Tractions lestées ou strictes',level>=3&&eq==='weighted'?'5x3-5':'5x4-6','RIR '+c.rir+', repos 2-3 min'],['Dips lestés ou stricts',level>=3&&eq==='weighted'?'5x3-5':'4x5-8','RIR '+c.rir],['Front lever tuck raises','4x3-6','Qualité scapulaire']];second=[['Row horizontal','4x8-12','Contrôle'],['Pike push-up / HSPU prog.','4x4-8','Pas de douleur cervicale']];fin=[['Hollow hold','3x25-40 s','Respiration calme']];}
+      else if(goal==='endurance'){main=[['Ladder tractions','1-2-3-4-5 x 3-5 tours','Stop si technique baisse'],['Ladder dips','2-4-6-8 x 3-4 tours','RIR 2-4'],['Pompes density block','8-12 min','Accumuler des reps propres']];second=[['EMOM muscle-up technique','6-10 min','1 rep ou transition'],['Core alterné','8 min','Hollow / side plank']];fin=[['Décompression épaules','4 min','Lent']];}
+      else if(goal==='skills'){main=[['Handstand line drill','8-12 min','Petites tentatives'],['Front lever progression','5x8-12 s','Tuck/advanced tuck'],['Muscle-up transition','5x3','Élastique si besoin']];second=[['Tractions explosives','6x2-4','Barre poitrine'],['Pike push-up','4x5-8','RIR 2-3']];fin=[['Mobilité poignets/épaules','6 min','Douce']];}
+      else if(goal==='deload'){main=[['Circuit mobilité','18-25 min','Poignets, épaules, hanches'],['Technique facile','3x5-8','Tractions assistées, pompes, squats'],['Marche ou vélo doux','10-25 min','Conversation possible']];second=[['Gainage léger','3 tours','Hollow court, dead bug']];fin=[['Respiration retour au calme','5 min','Baisser le tonus']];}
+      else{main=[['Skill du jour','10 min','FL ou handstand sans fatigue'],['Tractions','4x5-8','RIR '+c.rir],['Dips','4x5-10','RIR '+c.rir]];second=[['Pompes tempo','3x10-18','3 s descente'],['Jambes unilatérales','3x8-12/jambe','Squat bulgare ou fentes'],['Core','3-4 séries','Hollow / toes to bar']];fin=[['Mini density block','6-10 min','Tractions + pompes sous-max']];}
+      if(short){second=second.slice(0,1);fin=fin.slice(0,1)} if(long&&goal!=='deload'){fin.push(['Finisher optionnel','6-8 min','Bras ou abdos, RIR 3'])}
+      $('#sessionOutput').innerHTML=block('1 · Échauffement intelligent',warm,'<span class="tag blue">préparer</span>')+block('2 · Bloc principal',main,'<span class="tag green">priorité '+goal+'</span> <span class="tag">RIR '+c.rir+'</span>')+block('3 · Assistance / volume',second,'<span class="tag violet">qualité</span>')+block('4 · Finisher / retour au calme',fin,'<span class="tag yellow">optionnel</span>');
+      updateSummary();
+    }
+    function renderLibrary(){const root=$('#exerciseLibrary');root.innerHTML=exercises.filter(e=>state.filter==='all'||e[1].includes(state.filter)).map(e=>`<div class="lib-card"><b>${e[0]}</b><div class="muscle">${e[2]}</div><p class="mini muted"><span class="kbd">${e[1]}</span> · ${e[3]}</p></div>`).join('')}
+    function renderChecklist(){const saved=JSON.parse(localStorage.getItem('hybrid_checks')||'[]');$('#checklist').innerHTML=checklistItems.map((x,i)=>`<label class="check ${saved.includes(i)?'done':''}"><input type="checkbox" data-check="${i}" ${saved.includes(i)?'checked':''}>${x}</label>`).join('')}
+    function updateSummary(){const c=compute();$('#summaryBox').value=`Programme hybride v6\nPriorité : ${state.goal}\nTemps : ${c.time} min\nReadiness : ${c.readiness}/100\nCharge cible : ${c.charge}/100\nRIR conseillé : ${c.rir}\nPrudence santé : ${c.health}/100\nCalories estimées : ${c.kcal} kcal\nNote : adapter ou arrêter en cas de symptôme inhabituel.`}
+    function save(){const data={};controls.forEach(id=>data[id]=els[id].value);data.goal=state.goal;data.filter=state.filter;localStorage.setItem('hybrid_v6',JSON.stringify(data));toast('Réglages sauvegardés dans ce navigateur.')} function load(){const data=JSON.parse(localStorage.getItem('hybrid_v6')||'null');if(!data)return;controls.forEach(id=>{if(data[id]!==undefined)els[id].value=data[id]});state.goal=data.goal||'hybrid';state.filter=data.filter||'all'}
+    function initEvents(){controls.forEach(id=>els[id].addEventListener('input',()=>{updateLabels();compute();updateSummary()}));['generateBtn','quickGenerate'].forEach(id=>$('#'+id).addEventListener('click',generateSession));$('#saveBtn').addEventListener('click',save);$('#printBtn').addEventListener('click',()=>window.print());
+      $$('[data-theme-btn]').forEach(b=>b.addEventListener('click',()=>{$$('[data-theme-btn]').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.body.dataset.theme=b.dataset.themeBtn}));
+      $$('#goalSeg button').forEach(b=>b.addEventListener('click',()=>{$$('#goalSeg button').forEach(x=>x.classList.remove('active'));b.classList.add('active');state.goal=b.dataset.goal;compute();generateSession()}));
+      $$('#filterSeg button').forEach(b=>b.addEventListener('click',()=>{$$('#filterSeg button').forEach(x=>x.classList.remove('active'));b.classList.add('active');state.filter=b.dataset.filter;renderLibrary()}));
+      $$('#planTabs .tab').forEach(b=>b.addEventListener('click',()=>{$$('#planTabs .tab').forEach(x=>x.classList.remove('active'));$$('.tab-panel').forEach(p=>p.classList.remove('active'));b.classList.add('active');$('#'+b.dataset.tab).classList.add('active')}));
+      $('#checklist').addEventListener('change',e=>{if(!e.target.matches('[data-check]'))return;const checked=$$('#checklist input:checked').map(x=>Number(x.dataset.check));localStorage.setItem('hybrid_checks',JSON.stringify(checked));renderChecklist()});
+      $('#resetChecks').addEventListener('click',()=>{localStorage.removeItem('hybrid_checks');renderChecklist();toast('Checklist réinitialisée.')});
+      $('#copySummary').addEventListener('click',async()=>{updateSummary();try{await navigator.clipboard.writeText($('#summaryBox').value);toast('Résumé copié.')}catch(e){toast('Copie impossible : sélectionnez le texte.')}});
+      $('#exportJson').addEventListener('click',()=>{const c=compute();const blob=new Blob([JSON.stringify({date:new Date().toISOString(),settings:Object.fromEntries(controls.map(id=>[id,els[id].value])),goal:state.goal,computed:c},null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='programme-hybride-v6-export.json';a.click();URL.revokeObjectURL(a.href)});
+      const obs=new IntersectionObserver(entries=>{entries.forEach(en=>{if(en.isIntersecting){$$('.nav a').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+en.target.id))}})},{rootMargin:'-30% 0px -65% 0px'});$$('section[id]').forEach(s=>obs.observe(s));
+    }
+    load(); updateLabels(); renderLibrary(); renderChecklist(); initEvents(); compute(); generateSession(); updateSummary();
+  })();
+  </script>
 </body>
 </html>
