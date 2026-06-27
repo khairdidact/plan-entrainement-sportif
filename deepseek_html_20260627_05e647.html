@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Programme Hybride · 12 semaines · 5 scénarios</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background: #0d1117;
+            color: #c9d1d9;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding: 2rem 1.5rem;
+            line-height: 1.5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #161b22;
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid #30363d;
+        }
+        h1 {
+            font-size: 2.2rem;
+            border-bottom: 1px solid #30363d;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.8rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+        }
+        h1 small { font-size: 0.9rem; font-weight: 400; color: #8b949e; margin-left: auto; }
+        .badge { background: #238636; color: #fff; font-size: 0.7rem; padding: 0.2rem 0.8rem; border-radius: 20px; }
+        .grid-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.8rem; margin: 1.8rem 0; }
+        @media (max-width: 750px) { .grid-2col { grid-template-columns: 1fr; } }
+        .card {
+            background: #0d1117;
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid #30363d;
+        }
+        .card h3 { font-size: 1.1rem; margin-bottom: 1.2rem; color: #f0f6fc; display: flex; align-items: center; gap: 8px; }
+        .param-group { display: flex; flex-direction: column; gap: 1.3rem; }
+        .param-item { display: flex; flex-direction: column; gap: 0.3rem; }
+        .param-item label {
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: #b1bac4;
+            display: flex;
+            justify-content: space-between;
+        }
+        .param-item input[type="range"] {
+            width: 100%;
+            height: 6px;
+            background: #30363d;
+            border-radius: 10px;
+            -webkit-appearance: none;
+            appearance: none;
+            outline: none;
+        }
+        .param-item input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #58a6ff;
+            cursor: pointer;
+            border: 2px solid #0d1117;
+        }
+        .param-item input[type="range"]::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #58a6ff;
+            cursor: pointer;
+            border: 2px solid #0d1117;
+        }
+        .value-indicator {
+            background: #21262d;
+            padding: 0.15rem 0.7rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            color: #e6edf3;
+        }
+        .select-style {
+            background: #0d1117;
+            color: #c9d1d9;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 0.5rem 0.8rem;
+            font-size: 0.9rem;
+            width: 100%;
+            cursor: pointer;
+        }
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+            margin: 1.8rem 0 1.2rem;
+        }
+        .btn {
+            background: #21262d;
+            border: 1px solid #30363d;
+            color: #c9d1d9;
+            padding: 0.5rem 1.2rem;
+            border-radius: 30px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+        .btn:hover { background: #30363d; border-color: #58a6ff; }
+        .btn.active { background: #1f6feb; border-color: #1f6feb; color: #fff; }
+        .scenario-box {
+            background: #0d1117;
+            border-radius: 12px;
+            padding: 1.8rem;
+            margin: 2rem 0 1.5rem;
+            border: 1px solid #30363d;
+        }
+        .scenario-list { display: flex; flex-direction: column; gap: 1.2rem; margin-top: 1.2rem; }
+        .scenario-item {
+            background: #161b22;
+            padding: 1.2rem 1.5rem;
+            border-radius: 12px;
+            border: 1px solid #30363d;
+        }
+        .scenario-item strong { color: #f0f6fc; font-size: 1.1rem; display: block; margin-bottom: 0.25rem; }
+        .meta { color: #8b949e; font-size: 0.85rem; display: flex; flex-wrap: wrap; gap: 0.8rem; margin: 0.3rem 0 0.5rem; }
+        .tag { background: #21262d; padding: 0.1rem 0.7rem; border-radius: 30px; font-size: 0.7rem; color: #b1bac4; }
+        .calories-badge { background: #1f6feb33; border: 1px solid #1f6feb44; padding: 0.1rem 0.9rem; border-radius: 30px; font-size: 0.8rem; color: #58a6ff; font-weight: 500; }
+        .footer-note { border-top: 1px solid #30363d; margin-top: 2rem; padding-top: 1.5rem; font-size: 0.9rem; color: #8b949e; display: flex; justify-content: space-between; flex-wrap: wrap; }
+        .text-muted { color: #8b949e; }
+        .pill { background: #21262d; padding: 0.2rem 0.8rem; border-radius: 30px; font-size: 0.75rem; }
+        .icon { font-size: 1.2rem; }
+        @media (max-width: 600px) { body { padding: 1rem; } .container { padding: 1.2rem; } h1 { font-size: 1.6rem; } }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <h1>
+        🏋️ Programme hybride · 12 semaines
+        <small><span class="badge">v4 · 5 scénarios dynamiques</span></small>
+    </h1>
+
+    <div class="grid-2col">
+        <div class="card">
+            <h3><span class="icon">🧬</span> Paramètres somatiques & mental</h3>
+            <div class="param-group">
+                <div class="param-item">
+                    <label>Taille (cm) <span class="value-indicator" id="tailleVal">176</span></label>
+                    <input type="range" id="taille" min="150" max="210" value="176" step="1">
+                </div>
+                <div class="param-item">
+                    <label>Masse (kg) <span class="value-indicator" id="masseVal">74</span></label>
+                    <input type="range" id="masse" min="50" max="120" value="74" step="0.5">
+                </div>
+                <div class="param-item">
+                    <label>Pression systolique <span class="value-indicator" id="pressionVal">120</span></label>
+                    <input type="range" id="pression" min="90" max="160" value="120" step="1">
+                </div>
+                <div class="param-item">
+                    <label>Pouls au repos (bpm) <span class="value-indicator" id="poulsVal">62</span></label>
+                    <input type="range" id="pouls" min="45" max="100" value="62" step="1">
+                </div>
+                <div class="param-item">
+                    <label>Sédentarité (dernières 48h) <span class="value-indicator" id="sedentVal">3</span></label>
+                    <input type="range" id="sedent" min="1" max="5" value="3" step="1">
+                    <div style="display:flex;justify-content:space-between;font-size:0.7rem;color:#8b949e;"><span>très actif</span><span>moyen</span><span>très sédentaire</span></div>
+                </div>
+                <div class="param-item">
+                    <label>Motivation / détermination <span class="value-indicator" id="motivVal">4</span></label>
+                    <input type="range" id="motiv" min="1" max="5" value="4" step="1">
+                    <div style="display:flex;justify-content:space-between;font-size:0.7rem;color:#8b949e;"><span>faible</span><span>moyenne</span><span>max</span></div>
+                </div>
+                <div class="param-item">
+                    <label>Envie de sortir / extérieur <span class="value-indicator" id="envieSortirVal">3</span></label>
+                    <input type="range" id="envieSortir" min="1" max="5" value="3" step="1">
+                    <div style="display:flex;justify-content:space-between;font-size:0.7rem;color:#8b949e;"><span>intérieur</span><span>mixte</span><span>extérieur</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">⚙️</span> Contraintes & visée</h3>
+            <div class="param-group">
+                <div class="param-item">
+                    <label>Temps disponible (min) <span class="value-indicator" id="tempsVal">60</span></label>
+                    <input type="range" id="temps" min="20" max="120" value="60" step="5">
+                </div>
+                <div class="param-item">
+                    <label>Intempéries / praticable <span class="value-indicator" id="intemperieVal">3</span></label>
+                    <input type="range" id="intemperie" min="1" max="5" value="3" step="1">
+                    <div style="display:flex;justify-content:space-between;font-size:0.7rem;color:#8b949e;"><span>praticable</span><span>moyen</span><span>impraticable</span></div>
+                </div>
+                <div class="param-item">
+                    <label>Visée technique (priorité) </label>
+                    <select id="viseeTech" class="select-style">
+                        <option value="full">Complet (force + skills + endurance)</option>
+                        <option value="upper">Haut du corps (tractions, dips, pompes)</option>
+                        <option value="lower">Membres inférieurs + core</option>
+                        <option value="core">Abdominaux / gainage prioritaire</option>
+                        <option value="skills">Skills (front lever, handstand, HSPU)</option>
+                    </select>
+                </div>
+                <div class="param-item">
+                    <label>Niveau d'intensité globale </label>
+                    <select id="niveauIntensite" class="select-style">
+                        <option value="1">1 · récupération / deload</option>
+                        <option value="2">2 · léger (RIR 3-4)</option>
+                        <option value="3" selected>3 · modéré (RIR 2-3)</option>
+                        <option value="4">4 · soutenu (RIR 1-2)</option>
+                        <option value="5">5 · maximal (RIR 0-1)</option>
+                    </select>
+                </div>
+                <div class="param-item">
+                    <label>Niveau d'endurance calisthenics </label>
+                    <select id="niveauEndurance" class="select-style">
+                        <option value="1">1 · débutant (max tractions < 8)</option>
+                        <option value="2">2 · intermédiaire (8-15 tractions)</option>
+                        <option value="3" selected>3 · confirmé (15-25 tractions)</option>
+                        <option value="4">4 · avancé (> 25 tractions)</option>
+                        <option value="5">5 · expert (muscle-up + volume)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="btn-group">
+        <button class="btn active" id="btnGenerer">🔄 Générer les 5 scénarios</button>
+        <button class="btn" id="btnReset">↺ Réinitialiser</button>
+        <span class="pill" style="margin-left:auto;">5 niveaux d'intensité · combinés</span>
+    </div>
+
+    <div class="scenario-box">
+        <h3><span>📋</span> 5 scénarios compatibles</h3>
+        <div id="scenarioList" class="scenario-list">
+            <!-- généré par JS -->
+        </div>
+        <div style="margin-top:0.8rem;font-size:0.85rem;color:#8b949e;border-top:1px solid #21262d;padding-top:0.8rem;">
+            ⚡ Les scénarios s'adaptent à vos paramètres. Estimation calorique basée sur le MET, le poids et la durée.
+        </div>
+    </div>
+
+    <div style="display:flex;flex-wrap:wrap;gap:1rem;margin:1.5rem 0;background:#0d1117;padding:1.2rem;border-radius:12px;border:1px solid #30363d;">
+        <div style="flex:1;min-width:140px;">📅 <strong>Lundi</strong> Pull force + FL + MU</div>
+        <div style="flex:1;min-width:140px;">🦵 <strong>Mardi</strong> Jambes + core</div>
+        <div style="flex:1;min-width:140px;">💪 <strong>Mercredi</strong> Push + handstand</div>
+        <div style="flex:1;min-width:140px;">🏃 <strong>Vendredi</strong> Endurance calisthenics</div>
+        <div style="flex:1;min-width:140px;">🧘 <strong>Samedi</strong> Volume + skills légers</div>
+    </div>
+
+    <div class="footer-note">
+        <span>📌 Programme hybride · 12 semaines · Force lestée, skills, endurance</span>
+        <span>⚙️ Dépôt GitHub · version 5 scénarios + calories</span>
+    </div>
+</div>
+
+<script>
+    (function() {
+        "use strict";
+
+        // Récupération des éléments
+        const rangeIds = ['taille', 'masse', 'pression', 'pouls', 'sedent', 'motiv', 'envieSortir', 'temps', 'intemperie'];
+        const selectIds = ['viseeTech', 'niveauIntensite', 'niveauEndurance'];
+        const labelIds = ['tailleVal', 'masseVal', 'pressionVal', 'poulsVal', 'sedentVal', 'motivVal', 'envieSortirVal', 'tempsVal', 'intemperieVal'];
+
+        const ranges = {};
+        const selects = {};
+        const labels = {};
+
+        rangeIds.forEach(id => ranges[id] = document.getElementById(id));
+        selectIds.forEach(id => selects[id] = document.getElementById(id));
+        labelIds.forEach(id => labels[id] = document.getElementById(id));
+
+        // Mettre à jour les affichages des valeurs
+        function updateLabels() {
+            rangeIds.forEach(id => {
+                const label = labels[id + 'Val'];
+                if (label && ranges[id]) {
+                    label.textContent = ranges[id].value;
+                }
+            });
+        }
+
+        // Écouteurs pour mise à jour en direct
+        rangeIds.forEach(id => {
+            const el = ranges[id];
+            if (el) {
+                el.addEventListener('input', updateLabels);
+            }
+        });
+
+        // Calcul des calories
+        function calculateCalories(met, weightKg, durationMin) {
+            return Math.round(met * weightKg * (durationMin / 60));
+        }
+
+        // Génération des scénarios
+        function generateScenarios() {
+            console.log('Génération des scénarios déclenchée');
+
+            // Lire les valeurs
+            const weight = parseFloat(ranges.masse.value);
+            const duration = parseInt(ranges.temps.value);
+            const intensite = parseInt(selects.niveauIntensite.value);
+            const endurance = parseInt(selects.niveauEndurance.value);
+            const visee = selects.viseeTech.value;
+            const motiv = parseInt(ranges.motiv.value);
+            const sedent = parseInt(ranges.sedent.value);
+            const envieSortir = parseInt(ranges.envieSortir.value);
+            const intemperie = parseInt(ranges.intemperie.value);
+
+            const estFatigue = sedent >= 4;
+            const motivationHaute = motiv >= 4;
+            const tempsCourt = duration < 40;
+            const tempsLong = duration >= 80;
+            const exterieurOk = envieSortir >= 4 && intemperie <= 2;
+            const interieur = envieSortir <= 2 || intemperie >= 4;
+
+            // Définition des 5 scénarios de base (MET indicatif)
+            const baseScenarios = [
+                { id: 1, titre: '🔹 Récupération / Deload', met: 3.0, tag: 'très léger', desc: 'Volume réduit de 50%. RIR 3-4. Étirements et mobilité. Travail technique pur.' },
+                { id: 2, titre: '🔸 Hypertrophie / Volume', met: 5.5, tag: 'volume modéré', desc: 'Séries de 8-12 reps. 4-5 exercices. Pompes, tractions, dips en straight sets. RIR 2.' },
+                { id: 3, titre: '🔹 Force / Puissance', met: 7.0, tag: 'lourd', desc: '5x3 à 5x5 lesté. Front lever / handstand en début. RIR 1-2. Repos longs.' },
+                { id: 4, titre: '🔸 Endurance / Capacité', met: 8.0, tag: 'densité', desc: 'EMOM, Ladders, Density blocks. Tractions / dips / pompes en grand volume. RIR 2-3.' },
+                { id: 5, titre: '🔹 Hybride Peak', met: 8.5, tag: 'complet', desc: 'Mix force + endurance. Circuit : 3 tractions lourdes, 6 dips, 12 pompes. Skills en début.' }
+            ];
+
+            // Personnalisation
+            const scenarios = baseScenarios.map((s, index) => {
+                let desc = s.desc;
+
+                if (visee === 'upper' || visee === 'skills') {
+                    if (index === 2) desc += ' Priorité aux tractions/dips lestés et HSPU.';
+                    if (index === 3) desc += ' Séries longues de pompes, tractions et muscle-up techniques.';
+                } else if (visee === 'lower') {
+                    if (index === 2) desc += ' Squats lourds, RDL, fentes.';
+                    if (index === 3) desc += ' Squats sautés, step-ups, mollets en endurance.';
+                } else if (visee === 'core') {
+                    desc += ' Gainage, hollow, pallof, toes to bar.';
+                }
+
+                if (tempsCourt) desc += ' · Version rapide (20-30 min) : ne garder que l\'essentiel.';
+                if (tempsLong && (index === 2 || index === 4)) desc += ' · Ajout d\'un finisher bras / abdos.';
+                if (estFatigue && index !== 0) desc += ' · Attention : sédentarité élevée, privilégier RIR 3.';
+                if (motivationHaute && index === 4) desc += ' · Niveau de détermination max : ajouter un test de fin de séance.';
+                if (interieur && (index === 3 || index === 4)) desc += ' · Adapté en intérieur (au poids du corps ou élastiques).';
+                if (exterieurOk && index === 3) desc += ' · Profiter de l\'extérieur pour des tractions à la barre et dips sur banc.';
+
+                const calories = calculateCalories(s.met, weight, duration);
+
+                return {
+                    ...s,
+                    desc: desc,
+                    calories: calories
+                };
+            });
+
+            // Rendu
+            const container = document.getElementById('scenarioList');
+            if (!container) return;
+
+            container.innerHTML = scenarios.map(s => `
+                <div class="scenario-item">
+                    <strong>${s.titre}</strong>
+                    <div class="meta">
+                        <span>Intensité ${s.id} · MET ${s.met.toFixed(1)}</span>
+                        <span class="tag">${s.tag}</span>
+                        <span class="calories-badge">🔥 ~${s.calories} kcal</span>
+                    </div>
+                    <div class="text-muted" style="font-size:0.9rem;">${s.desc}</div>
+                </div>
+            `).join('');
+
+            console.log('Scénarios mis à jour');
+        }
+
+        // Bouton Générer
+        const btnGen = document.getElementById('btnGenerer');
+        if (btnGen) {
+            btnGen.addEventListener('click', function() {
+                console.log('Clic sur Générer');
+                generateScenarios();
+            });
+        }
+
+        // Bouton Réinitialiser
+        const btnReset = document.getElementById('btnReset');
+        if (btnReset) {
+            btnReset.addEventListener('click', function() {
+                console.log('Clic sur Réinitialiser');
+
+                // Valeurs par défaut
+                const defaultVals = {
+                    taille: 176, masse: 74, pression: 120, pouls: 62,
+                    sedent: 3, motiv: 4, envieSortir: 3, temps: 60, intemperie: 3,
+                    viseeTech: 'full', niveauIntensite: '3', niveauEndurance: '3'
+                };
+
+                // Réinitialiser les curseurs
+                rangeIds.forEach(id => {
+                    const el = ranges[id];
+                    if (el && defaultVals[id] !== undefined) {
+                        el.value = defaultVals[id];
+                        // Déclencher l'événement pour mettre à jour l'affichage
+                        el.dispatchEvent(new Event('input', { bubbles: true }));
+                    }
+                });
+
+                // Réinitialiser les selects
+                selectIds.forEach(id => {
+                    const el = selects[id];
+                    if (el && defaultVals[id] !== undefined) {
+                        el.value = defaultVals[id];
+                    }
+                });
+
+                // Mettre à jour les labels (au cas où)
+                updateLabels();
+
+                // Régénérer les scénarios
+                generateScenarios();
+            });
+        }
+
+        // Initialisation
+        updateLabels();
+        generateScenarios();
+
+        console.log('Script initialisé');
+    })();
+</script>
+</body>
+</html>
